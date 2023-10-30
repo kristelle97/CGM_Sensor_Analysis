@@ -2,16 +2,6 @@ from glycemic_variability_indices import *
 import json
 
 
-# def get_meal_log_from_json(filepath, date):
-#     meal_log = []
-#     with open(filepath, 'r') as file:
-#         for line in file:
-#             raw_data = json.loads(line)
-#             if raw_data['day'] == date:
-#                 meal_log += raw_data['Meals']
-#     return meal_log
-
-
 def get_meal_log_from_json(filepath, date):
     meal_log = {}
     with open(filepath, 'r') as file:
@@ -40,18 +30,20 @@ def get_cgm_data_from_json(filepath, date):
     return data, blood_sugar_data, compute_timepoints(time_points)
 
 
-data, blood_sugar_data, time_points = get_cgm_data_from_json('./data/ava_cgm_data.jsonl', '24/10/2023')
-meal_log = get_meal_log_from_json('./meal_logs/ava_meal_log.jsonl', '10/24/2023')
-
+data, blood_sugar_data, time_points = get_cgm_data_from_json('./data/stella_cgm_data.jsonl', '29/10/2023')
+# meal_log = get_meal_log_from_json('./meal_logs/ava_meal_log.jsonl', '10/25/2023')
+meal_log = {}
 baseline = compute_blood_sugar_baseline(blood_sugar_data)
 threshold = compute_threshold(baseline, 20)
 
-meal_times = detect_meal_times(data, meal_log, threshold)
-# print("Detected Meal Times (index):", meal_times)
+# meal_times = detect_meal_times(data, meal_log, threshold)
 
-# compute_blood_sugar_decrease(meal_times, baseline)
+print(detect_meal_times(data, meal_log, threshold))
 
-print(calculate_blood_sugar_increase(meal_times))
+
+# print(blood_sugar_data)
+# print(calculate_postprandial_blood_sugar_fluctuation(meal_times, baseline))
+
 # print("AUC: ", calculate_auc(meal_times))
 
 # compute_glycemic_variability_indices(blood_sugar_data, time_points)

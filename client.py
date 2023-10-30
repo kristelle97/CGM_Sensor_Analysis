@@ -1,7 +1,6 @@
 import requests as requests
-from helpers import compute_timepoints
 
-BASE_URL = "https://api.libreview.io"  # or "https://api-eu.libreview.io" for Europe
+BASE_URL = "https://api-fr.libreview.io"  # or "https://api-eu.libreview.io" for Europe
 HEADERS = {
     'accept-encoding': 'gzip',
     'cache-control': 'no-cache',
@@ -45,6 +44,7 @@ def get_cgm_data(token, patient_id):
     response = requests.get(BASE_URL + endpoint, headers=headers)
     response.raise_for_status()
     return response.json()
+
 
 # Get data from the CGM sensor through API.
 def get_data(email, password):

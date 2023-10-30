@@ -161,28 +161,30 @@ def detect_meal_times(data, meals_log, threshold, window_size=5):
     glucose_values = list(data.values())
     meals_data = []
     in_meal = False
-    meals_in_window = []
+    start_time = None
+    end_time = None
 
     for i in range(1, len(timestamps)):
         current_bs = glucose_values[i]
-        previous_bs = glucose_values[i - 1]
 
         if current_bs > threshold and not in_meal:
             in_meal = True
-            start_time = i - window_size if i >= window_size else 0
-        elif in_meal and (previous_bs - current_bs) > 1:
-            end_time = i
+            time = datetime.strptime(timestamps[i], '%m/%d/%Y %I:%M:%S %p')
+
+            # Adjust the time range to start 1 hour before increase detected and 3 hours after meal.
+            start_time = time - timedelta(hours=1)
+            end_time = time + timedelta(hours=3)
+
+            # Data is collected every day until 12am, so if someone had a late meal time (after 10pm), data will be
+            # missing past 12am.
+            if end_time > datetime.strptime(timestamps[len(timestamps) - 1], '%m/%d/%Y %I:%M:%S %p'):
+                end_time = datetime.strptime(timestamps[len(timestamps) - 1], '%m/%d/%Y %I:%M:%S %p') - timedelta(
+                    minutes=15)
+
+        if in_meal and end_time is not None and datetime.strptime(timestamps[i], '%m/%d/%Y %I:%M:%S %p') > end_time:
             in_meal = False
 
-            # Calculate the peak time within the meal window
-            peak_time = max(range(start_time, end_time + 1), key=lambda i: glucose_values[i])
-            peak_time = datetime.strptime(timestamps[peak_time], '%m/%d/%Y %I:%M:%S %p')
-
-            # Adjust the time range to start 1 hour before the peak and end 2 hours after the peak
-            start_time = peak_time - timedelta(hours=1)
-            end_time = peak_time + timedelta(hours=3)
-
-            # Get blood sugar value during meal time.
+            # Get blood sugar values during meal time.
             blood_sugar_values = {ts: value for ts, value in data.items() if
                                   start_time <= datetime.strptime(ts, '%m/%d/%Y %I:%M:%S %p') <= end_time}
 
@@ -193,65 +195,50 @@ def detect_meal_times(data, meals_log, threshold, window_size=5):
             meal_data = {'start_time': start_time.strftime('%m/%d/%Y %I:%M:%S %p'),
                          'end_time': end_time.strftime('%m/%d/%Y %I:%M:%S %p'),
                          'meal': meals, 'blood_sugar_values': blood_sugar_values}
-            if meal_data not in meals_data:
-                meals_data.append(meal_data)
 
-    meals_data = get_meal_times(data, meals_log, meals_in_window)
+            meals_data.append(meal_data)
+
+    meals_data = get_meal_times(data, meals_log, meals_data)
 
     return meals_data
 
 
-# Calculate blood sugar increase from 1 hour to another during 4h meal time window (1hour pre-meal and 3 hours
+# Calculate blood sugar fluctuation from 1 hour to another during 4h meal time window (1hour pre-meal and 3 hours
 # post-meal).
-def calculate_blood_sugar_increase(meals_data):
-    blood_sugar_increase_by_meal = []
+# Check for reactive hypoglycemia i.e. if there is a drop below the baseline after a meal.
+# For a healthy individual the blood sugar level should be close to the baseline 2hours post meal.
+def calculate_postprandial_blood_sugar_fluctuation(meals_data, baseline):
+    blood_sugar_fluctuation_by_meal = []
     for meal_data in meals_data:
-        blood_sugar_increase = []
+        blood_sugar_fluctuations = []
         time_points = compute_timepoints(meal_data['blood_sugar_values'].keys())
         blood_sugar_values = list(meal_data['blood_sugar_values'].values())
+        print(blood_sugar_values)
         hours_post_meal = [0, 60, 120, 180, 240]
         for i in range(1, len(hours_post_meal)):
-            t0 = min(time_points, key=lambda x: abs(x - hours_post_meal[i]))
-            t1 = min(time_points, key=lambda x: abs(x - hours_post_meal[i - 1]))
-            idx0 = time_points.index(t0)
-            idx1 = time_points.index(t1)
-            blood_sugar_increase.append(blood_sugar_values[idx0] - blood_sugar_values[idx1])
-        blood_sugar_increase_by_meal.append({
-            'meal': meal_data['meal'],
-            'start_time': meal_data['start_time'],
-            'end_time': meal_data['end_time'],
-            'blood_sugar_increase': blood_sugar_increase
-        })
-    return blood_sugar_increase_by_meal
+            t0 = min(time_points, key=lambda x: abs(x - hours_post_meal[i - 1]))
+            t1 = min(time_points, key=lambda x: abs(x - hours_post_meal[i]))
 
-
-# Calculate blood sugar decrease from the baseline 1 hour and 2 hours after peak.
-def compute_blood_sugar_decrease(meals_data, baseline):
-    blood_sugar_decrease_by_meal = []
-    for meal_data in meals_data:
-        blood_sugar_decrease = []
-
-        blood_sugar_values = list(meal_data['blood_sugar_values'].values())
-        time_points = compute_timepoints(meal_data['blood_sugar_values'].keys())
-
-        peak_index = blood_sugar_values.index(max(blood_sugar_values))
-        post_peak_blood_sugar_values = blood_sugar_values[peak_index:]
-        post_peak_timepoints = time_points[peak_index:]
+            blood_sugar_in_window = blood_sugar_values[time_points.index(t0):time_points.index(t1)]
+            if blood_sugar_in_window:
+                min_blood_sugar_measurement = min(blood_sugar_in_window)
+                max_blood_sugar_measurement = max(blood_sugar_in_window)
+                blood_sugar_fluctuation = min_blood_sugar_measurement - max_blood_sugar_measurement if blood_sugar_in_window.index(
+                    min_blood_sugar_measurement) < blood_sugar_in_window.index(
+                    max_blood_sugar_measurement) else max_blood_sugar_measurement - min_blood_sugar_measurement
+                blood_sugar_fluctuations.append(blood_sugar_fluctuation)
 
         # Check if there is a dip of 20ml/dl below the baseline post meal which qualifies as reactive hypoglycemia.
-        reactive_hypoglycemia = True if len([bs_value for bs_value in post_peak_blood_sugar_values if bs_value<=baseline-20])>0 else False
-
-        for i in range (0,len(blood_sugar_values)):
-            post_peak_timepoints[i]
-        blood_sugar_decrease_by_meal.append({
+        reactive_hypoglycemia = True if len([bs_value for bs_value in blood_sugar_values
+                                             if bs_value <= baseline - 20]) > 0 else False
+        blood_sugar_fluctuation_by_meal.append({
             'meal': meal_data['meal'],
             'start_time': meal_data['start_time'],
             'end_time': meal_data['end_time'],
-            'blood_sugar_decrease': blood_sugar_decrease,
+            'blood_sugar_increase': blood_sugar_fluctuations,
             'reactive hypoglycemia': reactive_hypoglycemia
         })
-    print(blood_sugar_decrease_by_meal)
-    return blood_sugar_decrease_by_meal
+    return blood_sugar_fluctuation_by_meal
 
 
 def compute_glycemic_variability_indices(blood_sugar_data, time_points):
