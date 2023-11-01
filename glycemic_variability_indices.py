@@ -203,8 +203,15 @@ def detect_meal_times(data, meals_log, threshold, window_size=5):
     return meals_data
 
 
+def compute_time_difference_between_meals(meals_data):
+    meals_start_time = [datetime.strptime(meal_data['start_time'], '%m/%d/%Y %I:%M:%S %p') for meal_data in meals_data]
+    time_difference_between_meals = [meals_start_time[i + 1] - meals_start_time[i] for i in range(len(meals_start_time) - 1)]
+    return time_difference_between_meals
+
+
 # Calculate blood sugar fluctuation from 1 hour to another during 4h meal time window (1hour pre-meal and 3 hours
 # post-meal).
+# For each 1hour window we compare the minimum and maximum glucose level in the window.
 # Check for reactive hypoglycemia i.e. if there is a drop below the baseline after a meal.
 # For a healthy individual the blood sugar level should be close to the baseline 2hours post meal.
 def calculate_postprandial_blood_sugar_fluctuation(meals_data, baseline):
@@ -230,7 +237,7 @@ def calculate_postprandial_blood_sugar_fluctuation(meals_data, baseline):
 
         # Check if there is a dip of 20ml/dl below the baseline post meal which qualifies as reactive hypoglycemia.
         reactive_hypoglycemia = True if len([bs_value for bs_value in blood_sugar_values
-                                             if bs_value <= baseline - 20]) > 0 else False
+                                             if bs_value <= baseline - 10]) > 0 else False
         blood_sugar_fluctuation_by_meal.append({
             'meal': meal_data['meal'],
             'start_time': meal_data['start_time'],
