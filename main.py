@@ -29,17 +29,20 @@ def get_cgm_data_from_json(filepath, date):
     return data, blood_sugar_data, compute_timepoints(time_points)
 
 
-data, blood_sugar_data, time_points = get_cgm_data_from_json('./data/ava_cgm_data.jsonl', '10/29/2023')
-# meal_log = get_meal_log_from_json('./meal_logs/ava_meal_log.jsonl', '10/29/2023')
+data, blood_sugar_data, time_points = get_cgm_data_from_json('./data/emma_cgm_data.jsonl', '11/3/2023')
+# meal_log = get_meal_log_from_json('./meal_logs/ava_meal_log.jsonl', '10/25/2023')
 meal_log = {}
 baseline = compute_blood_sugar_baseline(blood_sugar_data)
 threshold = compute_threshold(baseline, 20)
 
-meal_times = detect_meal_times(data, meal_log, threshold)
+# meal_times = detect_meal_times(data, meal_log, threshold)
 
-print(calculate_postprandial_blood_sugar_fluctuation(meal_times, baseline))
+# blood_sugar_fluctuation_by_meal = calculate_postprandial_blood_sugar_fluctuation(meal_times, baseline)
+# print(blood_sugar_fluctuation_by_meal)
 
-print(compute_time_difference_between_meals(meal_times))
+# print(compute_meal_score(blood_sugar_fluctuation_by_meal, threshold))
+
+# print(compute_time_difference_between_meals(meal_times))
 
 # print("AUC: ", calculate_auc(meal_times))
 

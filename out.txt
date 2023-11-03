@@ -1,0 +1,24 @@
+/Library/Developer/CommandLineTools/usr/bin/python3: can't open file 'script.py': [Errno 1] Operation not permitted
+Traceback (most recent call last):
+  File "script.py", line 3, in <module>
+    from client import get_data
+  File "/Users/kristellefeghali/Documents/PycharmProjects/documents/CGMReader/client.py", line 1, in <module>
+    import requests as requests
+ModuleNotFoundError: No module named 'requests'
+Result written to data/stella_cgm_data.jsonl
+Traceback (most recent call last):
+  File "/Users/kristellefeghali/Documents/PycharmProjects/documents/CGMReader/script.py", line 14, in <module>
+    cgm_data = get_data(patient['email'], patient['password'])
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kristellefeghali/Documents/PycharmProjects/documents/CGMReader/client.py", line 56, in get_data
+    cgm_data = get_cgm_data(token, patient_id)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/kristellefeghali/Documents/PycharmProjects/documents/CGMReader/client.py", line 45, in get_cgm_data
+    response.raise_for_status()
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/requests/models.py", line 1021, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 520 Server Error:  for url: https://api-fr.libreview.io/llu/connections/731e7736-7030-11ee-b08a-ea5d1c2018e3/graph
+Result written to data/stella_cgm_data.jsonl
+Result written to data/ava_cgm_data.jsonl
+Result written to data/geraldine_cgm_data.jsonl
+Result written to data/emma_cgm_data.jsonl
