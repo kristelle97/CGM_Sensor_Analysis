@@ -3,6 +3,7 @@ from helpers import *
 from numpy import trapz
 from datetime import datetime, timedelta
 import statistics
+import math
 
 
 # The standard deviation measures the spread or variability of blood sugar values. A higher standard deviation
@@ -207,8 +208,44 @@ def detect_meal_times(data, meals_log, threshold):
 # Compute the time elapsed between meals.
 def compute_time_difference_between_meals(meals_data):
     meals_start_time = [datetime.strptime(meal_data['start_time'], '%m/%d/%Y %I:%M:%S %p') for meal_data in meals_data]
-    time_difference_between_meals = [meals_start_time[i + 1] - meals_start_time[i] for i in range(len(meals_start_time) - 1)]
+    time_difference_between_meals = [meals_start_time[i + 1] - meals_start_time[i] for i in
+                                     range(len(meals_start_time) - 1)]
     return time_difference_between_meals
+
+
+# Normalize a value between 0 and 10.
+def normalize(value, max_value, min_value):
+    try:
+        normalized_value = round((value - min_value) / (max_value - min_value) * 10)
+        return 10 if normalized_value > 10 else normalized_value
+    # TODO: Log error
+    except:
+        return None
+
+
+# Compute a score for the meal eaten based on three metrics:
+# - Delta: increase of blood glucose
+# - Peak: max blood sugar level during meal
+# - Recovery: difference between pre-meal blood sugar and blood sugar 2h post meal.
+def compute_meal_score(blood_sugar_fluctuation, threshold):
+    # Delta is the score assigned to the rate of blood glucose increase.
+    delta = normalize(abs(blood_sugar_fluctuation['max_blood_sugar_increase']), 0, 100)
+
+    # Peak is the blood sugar maximum value reached during meal time.
+    peak = normalize(blood_sugar_fluctuation['blood_sugar_peak'], threshold, 200)
+
+    # Recovery computes the difference from the pre-meal blood sugar value 2 hours post meal.
+    recovery = normalize(
+        abs(blood_sugar_fluctuation['blood_sugar_2h_post_meal'] - blood_sugar_fluctuation['blood_sugar_pre_meal']), 0,
+        blood_sugar_fluctuation['blood_sugar_2h_post_meal'])
+
+    score = round(statistics.mean([i for i in [delta, peak, recovery] if i is not None]))
+    return {
+        'delta': delta,
+        'peak': peak,
+        'recovery': recovery,
+        'total_score': score
+    }
 
 
 # Calculate blood sugar fluctuation from 1 hour to another during 4h meal time window (1hour pre-meal and 3 hours
@@ -216,12 +253,13 @@ def compute_time_difference_between_meals(meals_data):
 # For each 1hour window we compare the minimum and maximum glucose level in the window.
 # Check for reactive hypoglycemia i.e. if there is a drop below the baseline after a meal.
 # For a healthy individual the blood sugar level should be close to the baseline 2hours post meal.
-def calculate_postprandial_blood_sugar_fluctuation(meals_data, baseline):
+def calculate_postprandial_blood_sugar_fluctuation(meals_data, baseline, threshold):
     blood_sugar_fluctuation_by_meal = []
     for meal_data in meals_data:
         blood_sugar_fluctuations = []
         blood_sugar_2h_post_meal = 0
         time_points = compute_timepoints(meal_data['blood_sugar_values'].keys())
+        print(time_points)
         blood_sugar_values = list(meal_data['blood_sugar_values'].values())
         blood_sugar_pre_meal = blood_sugar_values[0]
         hours_post_meal = [0, 60, 120, 180, 240]
@@ -230,6 +268,7 @@ def calculate_postprandial_blood_sugar_fluctuation(meals_data, baseline):
             t1 = min(time_points, key=lambda x: abs(x - hours_post_meal[i]))
 
             blood_sugar_in_window = blood_sugar_values[time_points.index(t0):time_points.index(t1)]
+            print(i, blood_sugar_in_window)
             if blood_sugar_in_window:
                 min_blood_sugar_measurement = min(blood_sugar_in_window)
                 max_blood_sugar_measurement = max(blood_sugar_in_window)
@@ -237,42 +276,31 @@ def calculate_postprandial_blood_sugar_fluctuation(meals_data, baseline):
                     min_blood_sugar_measurement) < blood_sugar_in_window.index(
                     max_blood_sugar_measurement) else max_blood_sugar_measurement - min_blood_sugar_measurement
                 blood_sugar_fluctuations.append(blood_sugar_fluctuation)
+                # Get the lowest blood sugar value 2 hours post meal to check if blood sugar level is back to baseline.
                 if i == 3:
                     blood_sugar_2h_post_meal = min(blood_sugar_in_window)
+
         # Check if there is a dip of 10ml/dl below the baseline post meal which qualifies as reactive hypoglycemia.
         reactive_hypoglycemia = True if len([bs_value for bs_value in blood_sugar_values
                                              if bs_value <= baseline - 10]) > 0 else False
-        blood_sugar_fluctuation_by_meal.append({
+        print(meal_data['meal'])
+        blood_sugar_fluctuation = {
             'meal': meal_data['meal'],
             'start_time': meal_data['start_time'],
             'end_time': meal_data['end_time'],
             'blood_sugar_peak': max(blood_sugar_values),
-            'max_blood_sugar_increase': min(blood_sugar_fluctuations), # minimum because the increase between previous and next blood sugar value is a negative int
+            # Minimum because the increase between previous and next blood sugar value is a negative int.
+            'max_blood_sugar_increase': min(blood_sugar_fluctuations),
             'blood_sugar_pre_meal': blood_sugar_pre_meal,
             'blood_sugar_2h_post_meal': blood_sugar_2h_post_meal,
             'blood_sugar_increase': blood_sugar_fluctuations,
             'reactive hypoglycemia': reactive_hypoglycemia
-        })
+        }
+        scores = compute_meal_score(blood_sugar_fluctuation, threshold)
+        blood_sugar_fluctuation['scores'] = scores
+        blood_sugar_fluctuation_by_meal.append(blood_sugar_fluctuation)
     return blood_sugar_fluctuation_by_meal
 
-
-def normalize(value, max_value, min_value):
-    # Normalize a value between 0 and 1
-    return (value - min_value) / (max_value - min_value)
-
-def compute_meal_score(blood_sugar_fluctuation_by_meal, threshold):
-    for blood_sugar_fluctuation in blood_sugar_fluctuation_by_meal:
-        # Delta is the score assigned to the rate of blood glucose increase.
-        delta = normalize(abs(blood_sugar_fluctuation['max_blood_sugar_increase']), 0, 100)*10
-
-        # Peak is the blood sugar maximum value reached during meal time.
-        peak = normalize(blood_sugar_fluctuation['blood_sugar_peak'], threshold, 200)*10
-
-        # Recovery computes the difference from the pre-meal blood sugar value 2 hours post meal.
-        recovery = normalize(abs(blood_sugar_fluctuation['blood_sugar_2h_post_meal'] - blood_sugar_fluctuation['blood_sugar_pre_meal']), 0, blood_sugar_fluctuation['blood_sugar_2h_post_meal']) * 10
-
-        score = statistics.mean([delta, peak, recovery])
-    return score
 
 def compute_glycemic_variability_indices(blood_sugar_data):
     window_size = 3

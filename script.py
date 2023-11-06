@@ -33,7 +33,7 @@ def remove_duplicate_cgm_data(filepath, cgm_data):
             if not entry['in_file']:
                 result_data.setdefault(date, []).append(entry['cgm_data'])
 
-    return data
+    return result_data
 
 
 for patient in patients:
