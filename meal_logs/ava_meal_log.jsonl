@@ -1,5 +1,197 @@
-{"day": "10/21/2023", "Meals": [ {"Timestamp": "10/21/2023 07:52:00 PM", "Meal": "British short bread"}, {"Timestamp": "10/21/2023 08:27:00 PM", "Meal": "J'ai faim"}, {"Timestamp": "10/21/2023 08:59:00 PM", "Meal": "Nouilles sautées avec poulet frit"}, {"Timestamp": "10/21/2023 10:18:00 PM", "Meal": "Chocolat au lait praliné"}, {"Timestamp": "10/21/2023 10:30:00 PM", "Meal": "Cookie et lait"} ]}
-{"day": "10/22/2023", "Meals": [ {"Timestamp": "10/22/2023 10:40:00 AM", "Meal": "J'ai faim"}, {"Timestamp": "10/22/2023 10:58:00 AM", "Meal": "Pain au chocolat et verre de lait"}, {"Timestamp": "10/22/2023 12:30:00 PM", "Meal": "3 sushi"}, {"Timestamp": "10/22/2023 01:12:00 PM", "Meal": "Plat de pâtes courgettes lardons végétales et parmesan (comme Stella et Géraldine) (J'ai pas faim)"}, {"Timestamp": "10/22/2023 01:32:00 PM", "Meal": "1 morceau de carotte rôtie"}, {"Timestamp": "10/22/2023 06:00:00 PM", "Meal": "Tartine avec fromage"}, {"Timestamp": "10/22/2023 08:00:00 PM", "Meal": "3 chips"}, {"Timestamp": "10/22/2023 08:10:00 PM", "Meal": "Soupe"}, {"Timestamp": "10/22/2023 08:20:00 PM", "Meal": "Poulet en sauce avec 2 patates"}, {"Timestamp": "10/22/2023 08:40:00 PM", "Meal": "Raisin"} ]}
-{"day": "10/23/2023", "Meals": [ {"Timestamp": "10/23/2023 10:52:00 AM", "Meal": "Chausson aux pommes (salement sucré)"}, {"Timestamp": "10/23/2023 03:35:00 PM", "Meal": "Pam 12min"}, {"Timestamp": "10/23/2023 04:00:00 PM", "Meal": "Plat de pâtes avec courgettes et lardon végétal et parmesan"}, {"Timestamp": "10/23/2023 06:48:00 PM", "Meal": "Chewing gum"}, {"Timestamp": "10/23/2023 07:25:00 PM", "Meal": "Madeleine"}, {"Timestamp": "10/23/2023 09:21:00 PM", "Meal": "Salade d'endive avec crêpe jambon œuf fromage"}, {"Timestamp": "10/23/2023 09:47:00 PM", "Meal": "Yaourt avec compote"} ]}
-{"day": "10/24/2023", "Meals": [ {"Timestamp": "10/24/2023 10:18:00 AM", "Meal": "Cookie banane lait"}, {"Timestamp": "10/24/2023 12:45:00 PM", "Meal": "Pâtes, steak végétal, patates douces, carottes"}, {"Timestamp": "10/24/2023 06:00:00 PM", "Meal": "Chocapic avec du lait"}, {"Timestamp": "10/24/2023 09:10:00 PM", "Meal": "Fromage cracotte"} ]}
-{"day": "10/25/2023", "Meals": [ {"Timestamp": "10/25/2023 09:10:00 AM", "Meal": "Bol de céréales avec du chocolat et du lait"} ]}
+{
+  "day": "10/21/2023",
+  "Meals": [
+    {"Timestamp": "10/21/2023 07:52:00 PM", "Meal": "British shortbread"},
+    {"Timestamp": "10/21/2023 08:27:00 PM", "Meal": "J'ai faim"},
+    {"Timestamp": "10/21/2023 08:59:00 PM", "Meal": "Nouilles sautées avec poulet frit"},
+    {"Timestamp": "10/21/2023 10:18:00 PM", "Meal": "Chocolat au lait praliné"},
+    {"Timestamp": "10/21/2023 10:30:00 PM", "Meal": "Cookie et lait"}
+  ]
+}
+{
+  "day": "10/22/2023",
+  "Meals": [
+    {"Timestamp": "10/22/2023 10:40:00 AM", "Meal": "J'ai faim"},
+    {"Timestamp": "10/22/2023 10:58:00 AM", "Meal": "Pain au chocolat et verre de lait"},
+    {"Timestamp": "10/22/2023 12:30:00 PM", "Meal": "3 sushi"},
+    {"Timestamp": "10/22/2023 01:12:00 PM", "Meal": "Plat de pâtes courgettes lardons végétales et parmesan (comme Stella et Géraldine) (je n'ai pas faim)"},
+    {"Timestamp": "10/22/2023 01:32:00 PM", "Meal": "1 morceau de carotte rôtie"},
+    {"Timestamp": "10/22/2023 06:00:00 PM", "Meal": "Tartine avec fromage"},
+    {"Timestamp": "10/22/2023 08:00:00 PM", "Meal": "3 chips"},
+    {"Timestamp": "10/22/2023 08:10:00 PM", "Meal": "Soupe"},
+    {"Timestamp": "10/22/2023 08:20:00 PM", "Meal": "Poulet en sauce avec 2 patates"},
+    {"Timestamp": "10/22/2023 08:40:00 PM", "Meal": "Raisin"}
+  ]
+}
+{
+  "day": "10/23/2023",
+  "Meals": [
+    {"Timestamp": "10/23/2023 10:52:00 AM", "Meal": "Chausson aux pommes (salement sucré)"},
+    {"Timestamp": "10/23/2023 03:35:00 PM", "Meal": "Pam 12min"},
+    {"Timestamp": "10/23/2023 04:00:00 PM", "Meal": "Plat de pâtes avec courgettes et lardon végétal et parmesan"},
+    {"Timestamp": "10/23/2023 06:48:00 PM", "Meal": "Chewing gum"},
+    {"Timestamp": "10/23/2023 07:25:00 PM", "Meal": "Madeleine"},
+    {"Timestamp": "10/23/2023 09:21:00 PM", "Meal": "Salade d'endive avec crêpe jambon œuf fromage"},
+    {"Timestamp": "10/23/2023 09:47:00 PM", "Meal": "Yaourt avec compote"}
+  ]
+}
+{
+  "day": "10/24/2023",
+  "Meals": [
+    {"Timestamp": "10/24/2023 09:09:00 AM", "Meal": "Cookie banane lait"},
+    {"Timestamp": "10/24/2023 12:45:00 PM", "Meal": "Pâtes, steak végétal, patates douces, carottes"},
+    {"Timestamp": "10/24/2023 06:00:00 PM", "Meal": "Chocapic avec du lait"},
+    {"Timestamp": "10/24/2023 09:10:00 PM", "Meal": "Fromage cracotte"}
+  ]
+}
+{
+  "day": "10/25/2023",
+  "Meals": [
+    {"Timestamp": "10/25/2023 09:10:00 AM", "Meal": "Bol de céréales avec du chocolat et du lait"},
+    {"Timestamp": "10/25/2023 12:33:00 PM", "Meal": "Curry poulet légumes riz"},
+    {"Timestamp": "10/25/2023 07:20:00 PM", "Meal": "Tartine fromage"},
+    {"Timestamp": "10/25/2023 09:30:00 PM", "Meal": "Poulet et riz"}
+  ]
+}
+{
+  "day": "10/26/2023",
+  "Meals": [
+    {"Timestamp": "10/26/2023 09:51:00 AM", "Meal": "Tartine avec fromage de chèvre et figue"},
+    {"Timestamp": "10/26/2023 10:08:00 AM", "Meal": "Yaourt avec du sucre"},
+    {"Timestamp": "10/26/2023 10:20:00 AM", "Meal": "Cookie avec du lait (salement sucré)"},
+    {"Timestamp": "10/26/2023 01:33:00 PM", "Meal": "Tomate, mozza, poulet, hash brown (dans l'ordre magique)"},
+    {"Timestamp": "10/26/2023 05:53:00 PM", "Meal": "Mangue séchée"},
+    {"Timestamp": "10/26/2023 06:05:00 PM", "Meal": "Chocolat amande"},
+    {"Timestamp": "10/26/2023 07:20:00 PM", "Meal": "Chips au crevettes"},
+    {"Timestamp": "10/26/2023 10:15:00 PM", "Meal": "Gratin de pâtes"},
+    {"Timestamp": "10/26/2023 10:38:00 PM", "Meal": "Fruit de la passion et banane"}
+  ]
+}
+{
+  "day": "10/27/2023",
+  "Meals": [
+    {"Timestamp": "10/27/2023 09:12:00 AM", "Meal": "J'ai faim"},
+    {"Timestamp": "10/27/2023 10:38:00 AM", "Meal": "Mug cake et lait et tartine de beurre"},
+    {"Timestamp": "10/27/2023 02:00:00 PM", "Meal": "Pâtes à la sauce tomate"},
+    {"Timestamp": "10/27/2023 02:26:00 PM", "Meal": "2 carrés de chocolat"},
+    {"Timestamp": "10/27/2023 02:52:00 PM", "Meal": "Magnum double choco"},
+    {"Timestamp": "10/27/2023 04:29:00 PM", "Meal": "Chocolat"},
+    {"Timestamp": "10/27/2023 08:14:00 PM", "Meal": "Ti punch"},
+    {"Timestamp": "10/27/2023 08:50:00 PM", "Meal": "Salade poulet riz brocoli omelette sauce soja"}
+  ]
+}
+{
+  "day": "10/28/2023",
+  "Meals": [
+    {"Timestamp": "10/28/2023 10:42:00 AM", "Meal": "Céréales Trésors avec du lait"},
+    {"Timestamp": "10/28/2023 01:46:00 PM", "Meal": "Carottes, tomates, mozza, steak"},
+    {"Timestamp": "10/28/2023 02:19:00 PM", "Meal": "Riz avec brocoli"},
+    {"Timestamp": "10/28/2023 02:24:00 PM", "Meal": "Banane fruit de la passion"},
+    {"Timestamp": "10/28/2023 07:00:00 PM", "Meal": "Gyoza"},
+    {"Timestamp": "10/28/2023 08:11:00 PM", "Meal": "Tartine de tarama"},
+    {"Timestamp": "10/28/2023 09:00:00 PM", "Meal": "Gyoza"}
+  ]
+}
+{
+  "day": "10/29/2023",
+  "Meals": [
+    {"Timestamp": "10/29/2023 09:00:00 AM", "Meal": "Trésors"},
+    {"Timestamp": "10/29/2023 12:00:00 PM", "Meal": "J'ai faim"},
+    {"Timestamp": "10/29/2023 01:25:00 PM", "Meal": "Gyoza"},
+    {"Timestamp": "10/29/2023 02:55:00 PM", "Meal": "Bonbon"},
+    {"Timestamp": "10/29/2023 10:00:00 PM", "Meal": "Gyoza, salade avocat, riz"}
+  ]
+}
+{
+  "day": "10/30/2023",
+  "Meals": [
+    {"Timestamp": "10/30/2023 10:38:00 AM", "Meal": "Trésors et lait"},
+    {"Timestamp": "10/30/2023 02:15:00 PM", "Meal": "Salade crevette pamplemousse avocat pain"},
+    {"Timestamp": "10/30/2023 07:43:00 PM", "Meal": "1 acra de morue"},
+    {"Timestamp": "10/30/2023 07:56:00 PM", "Meal": "Chips"},
+    {"Timestamp": "10/30/2023 11:00:00 PM", "Meal": "Patates et bœuf"},
+    {"Timestamp": "10/30/2023 11:51:00 PM", "Meal": "Chocolat avec du yaourt"}
+  ]
+}
+{
+  "day": "10/31/2023",
+  "Meals": [
+    {"Timestamp": "10/31/2023 10:40:00 AM", "Meal": "Petit déjeuner (pain au chocolat, céréales, pain, fromage, lait)"},
+    {"Timestamp": "10/31/2023 03:26:00 PM", "Meal": "Pâtes"},
+    {"Timestamp": "10/31/2023 05:00:00 PM", "Meal": "Bonbon"},
+    {"Timestamp": "10/31/2023 10:40:00 PM", "Meal": "Riz dinde aux épices cheese nan"}
+  ]
+}
+{
+  "day": "11/01/2023",
+  "Meals": [
+    {"Timestamp": "11/01/2023 10:35:00 AM", "Meal": "Céréales pain lait"},
+    {"Timestamp": "11/01/2023 05:00:00 PM", "Meal": "Biscuit cuillère"}
+  ]
+}
+{
+  "day": "11/02/2023",
+  "Meals": [
+    {"Timestamp": "11/02/2023 10:00:00 AM", "Meal": "Céréales croissant lait"},
+    {"Timestamp": "11/02/2023 02:47:00 PM", "Meal": "Salade tomates mozza (dans l'ordre magique)"},
+    {"Timestamp": "11/02/2023 02:55:00 PM", "Meal": "Pâtes sauce tomate parmesan"},
+    {"Timestamp": "11/02/2023 03:10:00 PM", "Meal": "Tiramisu"},
+    {"Timestamp": "11/02/2023 09:00:00 PM", "Meal": "Salade poireau vinaigrette"},
+    {"Timestamp": "11/02/2023 09:12:00 PM", "Meal": "Semoule, légumes, merguez"},
+    {"Timestamp": "11/02/2023 10:10:00 PM", "Meal": "2 yaourts confiture de châtaigne, 3 carrés de chocolat"}
+  ]
+}
+{
+  "day": "11/03/2023",
+  "Meals": [
+    {
+      "Timestamp": "11/03/2023 10:54:00 AM",
+      "Meal": "Pain au chocolat"
+    },
+    {
+      "Timestamp": "11/03/2023 11:01:00 AM",
+      "Meal": "Céréales Chocapic et lait"
+    },
+    {
+      "Timestamp": "11/03/2023 02:00:00 PM",
+      "Meal": "Tartes salade gâteau clémentine"
+    },
+    {
+      "Timestamp": "11/03/2023 08:02:00 PM",
+      "Meal": "1 chips"
+    },
+    {
+      "Timestamp": "11/03/2023 08:22:00 PM",
+      "Meal": "Morceau de brioche"
+    },
+    {
+      "Timestamp": "11/03/2023 08:28:00 PM",
+      "Meal": "Soupe"
+    },
+    {
+      "Timestamp": "11/03/2023 08:34:00 PM",
+      "Meal": "Salade tarama brioche"
+    },
+    {
+      "Timestamp": "11/03/2023 08:50:00 PM",
+      "Meal": "Saumon et riz"
+    },
+    {
+      "Timestamp": "11/03/2023 09:28:00 PM",
+      "Meal": "tarte aux pommes et mousse au chocolat"
+    },
+  ]
+}
+{
+  "day": "11/04/2023",
+  "Meals": [
+    {
+      "Timestamp": "11/04/2023 02:07:00 PM",
+      "Meal": "frites et burger"
+    },
+    {
+      "Timestamp": "11/04/2023 02:48:00 PM",
+      "Meal": "tiramisu"
+    }
+  ]
+}

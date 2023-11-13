@@ -259,7 +259,6 @@ def calculate_postprandial_blood_sugar_fluctuation(meals_data, baseline, thresho
         blood_sugar_fluctuations = []
         blood_sugar_2h_post_meal = 0
         time_points = compute_timepoints(meal_data['blood_sugar_values'].keys())
-        print(time_points)
         blood_sugar_values = list(meal_data['blood_sugar_values'].values())
         blood_sugar_pre_meal = blood_sugar_values[0]
         hours_post_meal = [0, 60, 120, 180, 240]
@@ -268,7 +267,6 @@ def calculate_postprandial_blood_sugar_fluctuation(meals_data, baseline, thresho
             t1 = min(time_points, key=lambda x: abs(x - hours_post_meal[i]))
 
             blood_sugar_in_window = blood_sugar_values[time_points.index(t0):time_points.index(t1)]
-            print(i, blood_sugar_in_window)
             if blood_sugar_in_window:
                 min_blood_sugar_measurement = min(blood_sugar_in_window)
                 max_blood_sugar_measurement = max(blood_sugar_in_window)
@@ -283,7 +281,6 @@ def calculate_postprandial_blood_sugar_fluctuation(meals_data, baseline, thresho
         # Check if there is a dip of 10ml/dl below the baseline post meal which qualifies as reactive hypoglycemia.
         reactive_hypoglycemia = True if len([bs_value for bs_value in blood_sugar_values
                                              if bs_value <= baseline - 10]) > 0 else False
-        print(meal_data['meal'])
         blood_sugar_fluctuation = {
             'meal': meal_data['meal'],
             'start_time': meal_data['start_time'],
@@ -296,8 +293,7 @@ def calculate_postprandial_blood_sugar_fluctuation(meals_data, baseline, thresho
             'blood_sugar_increase': blood_sugar_fluctuations,
             'reactive hypoglycemia': reactive_hypoglycemia
         }
-        scores = compute_meal_score(blood_sugar_fluctuation, threshold)
-        blood_sugar_fluctuation['scores'] = scores
+        blood_sugar_fluctuation['scores'] = compute_meal_score(blood_sugar_fluctuation, threshold)
         blood_sugar_fluctuation_by_meal.append(blood_sugar_fluctuation)
     return blood_sugar_fluctuation_by_meal
 

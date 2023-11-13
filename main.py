@@ -29,17 +29,15 @@ def get_cgm_data_from_json(filepath, date):
     return data, blood_sugar_data, compute_timepoints(time_points)
 
 
-data, blood_sugar_data, time_points = get_cgm_data_from_json('./data/stella_cgm_data.jsonl', '10/24/2023')
-meal_log = get_meal_log_from_json('./meal_logs/stella_meal_log.jsonl', '10/24/2023')
-# meal_log = {}
+data, blood_sugar_data, time_points = get_cgm_data_from_json('./data/stella_cgm_data.jsonl', '11/8/2023')
+# meal_log = get_meal_log_from_json('./meal_logs/stella_meal_log.jsonl', '10/24/2023')
+meal_log = {}
 baseline = compute_blood_sugar_baseline(blood_sugar_data)
 threshold = compute_threshold(baseline, 20)
-print(baseline, threshold)
 meal_times = detect_meal_times(data, meal_log, threshold)
-print(meal_times)
 
-# blood_sugar_fluctuation_by_meal = calculate_postprandial_blood_sugar_fluctuation(meal_times, baseline, threshold)
-# print(blood_sugar_fluctuation_by_meal)
+blood_sugar_fluctuation_by_meal = calculate_postprandial_blood_sugar_fluctuation(meal_times, baseline, threshold)
+print(blood_sugar_fluctuation_by_meal)
 
 # print(compute_meal_score(blood_sugar_fluctuation_by_meal, threshold))
 

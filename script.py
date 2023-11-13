@@ -36,12 +36,10 @@ def remove_duplicate_cgm_data(filepath, cgm_data):
     return result_data
 
 
+print(datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))
 for patient in patients:
     cgm_data = get_data(patient['email'], patient['password'])
-    # TODO: Before writing to json get all json lines with the same data[timestamp] and remove entries
-    #  with the same data[cgm_data]['timestamp']
     unique_cgm_data = remove_duplicate_cgm_data(patient['output_file'], cgm_data)
-    print(datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))
     for key, value in unique_cgm_data.items():
         data = {
             "timestamp": key,
